@@ -1,17 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ShooterGame.Framework.Screens;
+using ShooterGame.Game.Screens;
 using System.IO;
 
 namespace ShooterGame
 {
-    public class ShooterGame : Game
+    public class ShooterGame : Microsoft.Xna.Framework.Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private Texture2D texture;
-        private Vector2 position;
+        private ScreenManager screenManager = new();
+        
         public ShooterGame()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -21,28 +23,27 @@ namespace ShooterGame
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
+            screenManager.ChangeScreen(new PlayScreen(GraphicsDevice, Window));
+            _graphics.PreferredBackBufferWidth = 1600;
+            _graphics.PreferredBackBufferHeight = 900;
+            _graphics.ApplyChanges();
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            texture = Texture2D.FromFile(GraphicsDevice, "Assets/test.png");
-            // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-            var state = Keyboard.GetState();
-            if (state.IsKeyDown(Keys.Left))
-                position.X -= 100 * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (state.IsKeyDown(Keys.Right))
-                position.X += 100 * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            // TODO: Add your update logic here
+                screenManager.AddScreen(new PlayScreen(GraphicsDevice, Window));
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.A))
+                _graphics.ToggleFullScreen();
+
+            screenManager.Update(gameTime);
+            Window.Title = $"{(screenManager.Screens.Peek() as PlayScreen)?.game.AllObjects.Count} objects | {1 / gameTime.ElapsedGameTime.TotalSeconds}fps";
 
             base.Update(gameTime);
         }
@@ -51,8 +52,9 @@ namespace ShooterGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
-            _spriteBatch.Draw(texture, position, Color.White);
-            // TODO: Add your drawing code here
+
+            screenManager.Draw(gameTime, _spriteBatch);
+
             _spriteBatch.End();
             base.Draw(gameTime);
         }
