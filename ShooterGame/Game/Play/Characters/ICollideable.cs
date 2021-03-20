@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,8 @@ namespace ShooterGame.Game.Play.Characters
 {
     public interface ICollideable
     {
+        public Rectangle HitBox { get; set; }
+
+        public void OnCollision(Object collidedObject);
     }
 }

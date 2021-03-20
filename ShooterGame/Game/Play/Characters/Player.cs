@@ -14,6 +14,7 @@ namespace ShooterGame.Game.Play.Characters
     {
         private Vector2 currentPosition;
         public Vector2 CurrentPosition { get => currentPosition; private set => currentPosition = value; }
+        public Rectangle HitBox { get; set; }
         public int Health { get; private set; }
 
         private Texture2D texture;
@@ -30,7 +31,7 @@ namespace ShooterGame.Game.Play.Characters
         }
         public void Fire()
         {
-            GameManager.AddObject(new SimpleBullet(graphicsDevice, CurrentPosition));
+            GameManager.AddObject(new SimpleBullet(graphicsDevice, new(currentPosition.X, currentPosition.Y += 500)));
         }
         public override void Update(GameTime gameTime)
         {
@@ -38,24 +39,22 @@ namespace ShooterGame.Game.Play.Characters
             var state2 = Mouse.GetState();
             currentPosition.X = state2.X;
             currentPosition.Y = state2.Y;
-            //if (state.IsKeyDown(Keys.Left))
-            //    currentPosition.X -= playerSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            //if (state.IsKeyDown(Keys.Right))
-            //    currentPosition.X += playerSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            //if (state.IsKeyDown(Keys.Up))
-            //    currentPosition.Y -= playerSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            //if (state.IsKeyDown(Keys.Down))
-            //    currentPosition.Y += playerSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            HitBox = new Rectangle((int)currentPosition.X, (int)currentPosition.Y, 50, 50);
 
-            if (state.IsKeyDown(Keys.Z) /*&& !previousState.IsKeyDown(Keys.Z)*/)
+            if (state.IsKeyDown(Keys.Z) && !previousState.IsKeyDown(Keys.Z))
                 Fire();
+
             previousState = state;
         }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Rectangle((int)currentPosition.X, (int)currentPosition.Y, 50, 50), Color.White);
+            spriteBatch.Draw(texture, HitBox, Color.White);
         }
 
-        
+        public void OnCollision(Object collidedObject)
+        {
+            if (collidedObject is Bullet)
+                GameManager.RemoveObject(this);
+        }
     }
 }

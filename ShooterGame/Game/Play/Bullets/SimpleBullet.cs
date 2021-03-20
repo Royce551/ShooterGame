@@ -14,25 +14,20 @@ namespace ShooterGame.Game.Play.Bullets
         public int Health { get; private set; }
 
         private Texture2D texture;
-        private readonly GraphicsDevice graphicsDevice;
-        public SimpleBullet(GraphicsDevice graphicsDevice, Vector2 startPosition)
+        
+        public SimpleBullet(GraphicsDevice graphicsDevice, Vector2 startPosition) : base(graphicsDevice, startPosition)
         {
-            this.graphicsDevice = graphicsDevice;
-            currentPosition = startPosition;
             texture = Texture2D.FromFile(graphicsDevice, "Assets/Gameplay/SimpleBullet.png");
         }
         public override void Update(GameTime gameTime)
         {
-            if (IsEnemyBullet)
-                currentPosition.Y -= 10 * GameManager.GameSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            else
-                currentPosition.Y += 10 * GameManager.GameSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (!graphicsDevice.Viewport.Bounds.Intersects(new Rectangle((int)currentPosition.X, (int)currentPosition.Y, 50, 50)))
-                GameManager.RemoveObject(this);
+            base.Update(gameTime);
+            
         }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Rectangle((int)currentPosition.X, (int)currentPosition.Y, 50, 50), Color.White);
+            base.Draw(gameTime, spriteBatch);
+            spriteBatch.Draw(texture, HitBox, Color.White);
         }
     }
 }

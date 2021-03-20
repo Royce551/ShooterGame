@@ -11,7 +11,7 @@ namespace ShooterGame.Game.Play
     public class GameManager
     {
         public List<Object> AllObjects { get; private set; } = new();
-        public float GameSpeed { get; set; } = 100f;
+        public float GameSpeed { get; set; } = 1f;
 
         private readonly List<Object> objectsToAdd = new();
         private readonly List<Object> objectsToRemove = new();

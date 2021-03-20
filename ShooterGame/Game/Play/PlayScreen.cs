@@ -34,7 +34,7 @@ namespace ShooterGame.Game.Screens
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(background, graphicsDevice.Viewport.Bounds, Color.White);
+            //spriteBatch.Draw(background, graphicsDevice.Viewport.Bounds, Color.White);
             game.Draw(gameTime, spriteBatch);
         }
     }
