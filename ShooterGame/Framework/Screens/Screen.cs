@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ShooterGame.Framework.Screens
 {
-    public abstract class Screen
+    public abstract class Screen : IDrawableThing
     {
         public abstract void Update(GameTime gameTime);
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);

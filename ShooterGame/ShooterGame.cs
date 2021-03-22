@@ -43,7 +43,7 @@ namespace ShooterGame
                 _graphics.ToggleFullScreen();
 
             screenManager.Update(gameTime);
-            Window.Title = $"{(screenManager.Screens.Peek() as PlayScreen)?.game.AllObjects.Count} objects | {1 / gameTime.ElapsedGameTime.TotalSeconds}fps";
+            Window.Title = $"{(screenManager.Screens.Peek() as PlayScreen)?.game.AllObjects.Count} objects | {1 / gameTime.ElapsedGameTime.TotalSeconds}fps - world's worst match3 game";
 
             base.Update(gameTime);
         }

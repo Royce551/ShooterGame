@@ -22,13 +22,14 @@ namespace ShooterGame.Game.Screens
         {
             this.graphicsDevice = graphicsDevice;
             background = Texture2D.FromFile(graphicsDevice, "Assets/[ Pink Dreams ].png");
-            game.AddObject(new Player(graphicsDevice));
+            //game.AddObject(new Cursor(graphicsDevice));
+            _ = new Board(game, graphicsDevice);
         }
         public override void Update(GameTime gameTime)
         {
             var state = Keyboard.GetState();
             if (state.IsKeyDown(Keys.B))
-                game.AddObject(new Player(graphicsDevice));
+                game.AddObject(new Cursor(graphicsDevice));
             game.Update(gameTime);
         }
 

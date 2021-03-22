@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using ShooterGame.Game.Play.Bullets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ShooterGame.Game.Play.Characters
 {
-    public class Player : Object, ICollideable
+    public class Cursor : Object
     {
         private Vector2 currentPosition;
         public Vector2 CurrentPosition { get => currentPosition; private set => currentPosition = value; }
@@ -24,14 +23,10 @@ namespace ShooterGame.Game.Play.Characters
         private KeyboardState previousState;
 
         private readonly GraphicsDevice graphicsDevice;
-        public Player(GraphicsDevice graphicsDevice)
+        public Cursor(GraphicsDevice graphicsDevice)
         {
             this.graphicsDevice = graphicsDevice;
             texture = Texture2D.FromFile(graphicsDevice, "Assets/Gameplay/Player.png");
-        }
-        public void Fire()
-        {
-            GameManager.AddObject(new SimpleBullet(graphicsDevice, new(currentPosition.X, currentPosition.Y += 500)));
         }
         public override void Update(GameTime gameTime)
         {
@@ -41,20 +36,11 @@ namespace ShooterGame.Game.Play.Characters
             currentPosition.Y = state2.Y;
             HitBox = new Rectangle((int)currentPosition.X, (int)currentPosition.Y, 50, 50);
 
-            if (state.IsKeyDown(Keys.Z) && !previousState.IsKeyDown(Keys.Z))
-                Fire();
-
             previousState = state;
         }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, HitBox, Color.White);
-        }
-
-        public void OnCollision(Object collidedObject)
-        {
-            if (collidedObject is Bullet)
-                GameManager.RemoveObject(this);
         }
     }
 }
