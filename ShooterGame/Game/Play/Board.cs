@@ -28,6 +28,29 @@ namespace ShooterGame.Game.Play
             CreateBoard();
         }
 
+        public void SelectGem(Gem gem)
+        {
+            gem.IsSelected = true;
+            LastSelected = gem;
+        }
+        public void DeselectGem(Gem gem)
+        {
+            gem.IsSelected = false;
+            LastSelected = null;
+        }
+        public void SwapGems(Gem originalGem, Gem swapWith)
+        {
+            //var originalGemInBoard = board[originalGem.XPositionInBoard, originalGem.YPositionInBoard];
+            //var swapGemInBoard = board[swapWith.XPositionInBoard, swapWith.YPositionInBoard];
+
+            var buffer = originalGem;
+            swapWith.Position = originalGem.Position;
+            swapWith = originalGem;
+
+            originalGem.Position = buffer.Position;
+            originalGem = buffer;
+        }
+
         private void CreateBoard()
         {
             board = new Gem[size, size];
@@ -50,6 +73,8 @@ namespace ShooterGame.Game.Play
 
                     Gem newGem = CreateGemFromType((GemType)rng.Next(1, possibleGems.Count + 1), graphicsDevice);
                     newGem.Board = this;
+                    newGem.XPositionInBoard = x;
+                    newGem.YPositionInBoard = y;
                     newGem.Position = new Vector2(startX + (spaceBetweenTiles * x), startY + (spaceBetweenTiles * y));
                     board[x, y] = newGem;
                     gameManager.AddObject(newGem);

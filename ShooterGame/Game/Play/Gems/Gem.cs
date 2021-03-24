@@ -14,38 +14,46 @@ namespace ShooterGame.Game.Play.Gems
         public Board Board { get; set; }
      
         public Vector2 Position { get; set; }
+        public int XPositionInBoard { get; set; }
+        public int YPositionInBoard { get; set; }
         public abstract GemType Type { get; }
         public abstract string texturePath { get; }
         public bool IsSelected { get; set; }
 
         private MouseState lastMouseState;
         private Rectangle area;
-        private Texture2D texture;
+        private Texture2D sprite;
+        private Texture2D selectorSprite;
         private readonly GraphicsDevice graphicsDevice;
 
         public Gem(GraphicsDevice graphicsDevice)
         {
             this.graphicsDevice = graphicsDevice;
-            texture = Texture2D.FromFile(graphicsDevice, texturePath);
+            sprite = Texture2D.FromFile(graphicsDevice, texturePath);
+            selectorSprite = Texture2D.FromFile(graphicsDevice, "Assets/Gameplay/selectionBox.png");
         }
 
         public override void Update(GameTime gameTime)
         {
             var mouseState = Mouse.GetState();
-            if (lastMouseState.LeftButton == ButtonState.Released && mouseState.LeftButton == ButtonState.Pressed)
+            if (lastMouseState.LeftButton == ButtonState.Released && mouseState.LeftButton == ButtonState.Pressed && area.Intersects(new Rectangle(mouseState.Position, new Point(20))))
             {
                 if (IsSelected)
                 {
-                    IsSelected = false;
+                    Board.DeselectGem(this);
                 }
                 else
                 {
                     if (Board.LastSelected is null)
                     {
-                        IsSelected = true;
-                        Board.LastSelected = this;
+                        Board.SelectGem(this);
                     }
-                    else Board.LastSelected.IsSelected = false;
+                    else
+                    {
+                        
+                        Board.SwapGems(this, Board.LastSelected);
+                        Board.DeselectGem(Board.LastSelected);
+                    }
                 }
             }
             lastMouseState = mouseState;
@@ -53,11 +61,10 @@ namespace ShooterGame.Game.Play.Gems
         }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, area, Color.White);
+            spriteBatch.Draw(sprite, area, Color.White);
             if (IsSelected)
-            {
-                spriteBatch.Draw(texture, new Rectangle(area.X + 50, area.Y + 50, area.Width, area.Height), Color.White);
-            }
+                spriteBatch.Draw(selectorSprite, area, Color.White);
         }
+
     }
 }
