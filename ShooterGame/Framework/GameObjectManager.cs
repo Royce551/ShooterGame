@@ -6,21 +6,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShooterGame.Game.Play
+namespace ShooterGame.Framework
 {
-    public class GameManager
+    public class GameObjectManager
     {
-        public List<Object> AllObjects { get; private set; } = new();
-        public float GameSpeed { get; set; } = 1f;
+        public List<GameObject> AllObjects { get; private set; } = new();
+        public GraphicsDevice GraphicsDevice { get; init; }
 
-        private readonly List<Object> objectsToAdd = new();
-        private readonly List<Object> objectsToRemove = new();
-        public void AddObject(Object obj)
+        private readonly List<GameObject> objectsToAdd = new();
+        private readonly List<GameObject> objectsToRemove = new();
+        public GameObjectManager(GraphicsDevice graphicsDevice)
         {
-            obj.GameManager = this;
+            GraphicsDevice = graphicsDevice;
+        }
+
+        public void AddObject(GameObject obj)
+        {
+            obj.Game = this;
+            obj.Initialize();
             objectsToAdd.Add(obj);
         }
-        public void RemoveObject(Object obj)
+        public void RemoveObject(GameObject obj)
         {
             objectsToRemove.Add(obj);
         }

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ShooterGame.Framework.Screens;
 using ShooterGame.Game.Screens;
+using ShooterGame.Game.Screens.Play;
 using System.IO;
 
 namespace ShooterGame
@@ -19,6 +20,7 @@ namespace ShooterGame
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            Window.AllowUserResizing = true;
         }
 
         protected override void Initialize()
@@ -43,7 +45,7 @@ namespace ShooterGame
                 _graphics.ToggleFullScreen();
 
             screenManager.Update(gameTime);
-            Window.Title = $"{(screenManager.Screens.Peek() as PlayScreen)?.game.AllObjects.Count} objects | {1 / gameTime.ElapsedGameTime.TotalSeconds}fps - world's worst match3 game";
+            Window.Title = $"{(screenManager.Screens.Peek() as PlayScreen)?.game.AllObjects.Count} objects - shootergame";
 
             base.Update(gameTime);
         }
@@ -51,7 +53,7 @@ namespace ShooterGame
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.BackToFront);
 
             screenManager.Draw(gameTime, _spriteBatch);
 
