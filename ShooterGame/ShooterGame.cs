@@ -21,7 +21,6 @@ namespace ShooterGame
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            Window.AllowUserResizing = true;
         }
 
         protected override void Initialize()

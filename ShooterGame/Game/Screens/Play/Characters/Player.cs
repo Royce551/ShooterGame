@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ShooterGame.Framework;
+using ShooterGame.Game.Screens.Play.Bullets;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,15 +17,25 @@ namespace ShooterGame.Game.Screens.Play.Characters
         private const int initialplayerSpeed = 250;
         private int playerSpeed = initialplayerSpeed;
 
+        private bool isFiring = false;
+        private float millisecondsBetweenFires = 150;
         private Texture2D texture;
+        private GraphicsDevice graphicsDevice;
         public Player()
         {
             
         }
 
+        public void Fire()
+        {
+            var bullet = new LongBullet(PlayField, graphicsDevice, new(RelativePosition.X + PlayField.Position.X, RelativePosition.Y + PlayField.Position.Y));
+            Game.AddObject(bullet);
+        }
+
         public override void Initialize()
         {
             texture = Texture2D.FromFile(Game.GraphicsDevice, "Assets/Gameplay/Player.png");
+            graphicsDevice = Game.GraphicsDevice;
         }
 
         public override void Update(GameTime gameTime)
@@ -45,6 +56,24 @@ namespace ShooterGame.Game.Screens.Play.Characters
                 newRelativePosition.X -= playerSpeed * PlayField.GameSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (keyboardState.IsKeyDown(Keys.Right))
                 newRelativePosition.X += playerSpeed * PlayField.GameSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (keyboardState.IsKeyDown(Keys.Z))
+                isFiring = true;
+            else
+                isFiring = false;
+
+            if (isFiring)
+            {
+                if (millisecondsBetweenFires <= 0)
+                {
+                    Fire();
+                    millisecondsBetweenFires = 150;
+                }
+                else
+                {
+                    millisecondsBetweenFires -= 1 * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                }
+            }
 
             if (new Rectangle((int)(newRelativePosition.X + PlayField.Position.X), (int)(newRelativePosition.Y + PlayField.Position.Y), 20, 20).Intersects(PlayField.Position))
                 relativePosition = newRelativePosition;
