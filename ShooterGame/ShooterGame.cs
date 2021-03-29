@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using ShooterGame.Framework.Screens;
 using ShooterGame.Game.Screens;
 using ShooterGame.Game.Screens.Play;
+using System;
 using System.IO;
 
 namespace ShooterGame
@@ -28,6 +29,8 @@ namespace ShooterGame
             screenManager.ChangeScreen(new PlayScreen(GraphicsDevice, Window));
             _graphics.PreferredBackBufferWidth = 1600;
             _graphics.PreferredBackBufferHeight = 900;
+            _graphics.SynchronizeWithVerticalRetrace = false;
+            TargetElapsedTime = TimeSpan.FromMilliseconds(8.33);
             _graphics.ApplyChanges();
             base.Initialize();
         }
@@ -45,7 +48,7 @@ namespace ShooterGame
                 _graphics.ToggleFullScreen();
 
             screenManager.Update(gameTime);
-            Window.Title = $"{(screenManager.Screens.Peek() as PlayScreen)?.game.AllObjects.Count} objects - shootergame";
+            Window.Title = $"{(screenManager.Screens.Peek() as PlayScreen)?.game.AllObjects.Count} objects | {1 / gameTime.ElapsedGameTime.TotalSeconds}fps - shootergame";
 
             base.Update(gameTime);
         }

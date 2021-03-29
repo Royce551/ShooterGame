@@ -13,7 +13,7 @@ namespace ShooterGame.Game.Screens.Play.Characters
         public PlayField PlayField { get; set; }
 
         public Vector2 relativePosition; // TODO: figure out what to do with this
-        public Vector2 RelativePosition { get => relativePosition; private set => relativePosition = value; }
+        public Vector2 RelativePosition { get => relativePosition; init => relativePosition = value; }
 
         public abstract int Health { get; set; }
     }

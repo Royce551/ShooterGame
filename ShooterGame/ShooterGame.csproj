@@ -49,6 +49,12 @@
     <None Update="Assets\test.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\UI\playfieldDefaultBackground.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\UI\playscreenOverlay.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\[ Pink Dreams ].png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

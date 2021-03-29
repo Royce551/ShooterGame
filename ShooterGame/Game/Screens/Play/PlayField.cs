@@ -12,8 +12,8 @@ namespace ShooterGame.Game.Screens.Play
 {
     public class PlayField : GameObject
     {
-        public Rectangle Position { get; init; }
-        public double GameSpeed { get; private set; }
+        public Rectangle Position { get; set; }
+        public float GameSpeed { get; private set; } = 1;
         public Player Player { get; private set; }
 
         private Texture2D texture;
@@ -24,9 +24,12 @@ namespace ShooterGame.Game.Screens.Play
 
         public override void Initialize()
         {
-            texture = Texture2D.FromFile(Game.GraphicsDevice, "Assets/[ Pink Dreams ].png");
-            Player = new Player();
-            Player.PlayField = this;
+            texture = Texture2D.FromFile(Game.GraphicsDevice, "Assets/UI/playfieldDefaultBackground.png");
+            Player = new Player
+            {
+                RelativePosition = new(518, Position.Bottom - 50),
+                PlayField = this
+            };
             Game.AddObject(Player);
         }
 

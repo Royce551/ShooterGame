@@ -13,6 +13,9 @@ namespace ShooterGame.Game.Screens.Play.Characters
     {
         public override int Health { get; set; } = 100;
 
+        private const int initialplayerSpeed = 250;
+        private int playerSpeed = initialplayerSpeed;
+
         private Texture2D texture;
         public Player()
         {
@@ -27,19 +30,29 @@ namespace ShooterGame.Game.Screens.Play.Characters
         public override void Update(GameTime gameTime)
         {
             var keyboardState = Keyboard.GetState();
+
+            if (keyboardState.IsKeyDown(Keys.LeftShift))
+                playerSpeed = initialplayerSpeed - 100;
+            else
+                playerSpeed = initialplayerSpeed;
+
+            var newRelativePosition = relativePosition;
             if (keyboardState.IsKeyDown(Keys.Up))
-                relativePosition.Y -= PlayField.GameSpeed * gameTime.ElapsedGameTime.TotalSeconds;
+                newRelativePosition.Y -= playerSpeed * PlayField.GameSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (keyboardState.IsKeyDown(Keys.Down))
-                relativePosition.Y++;
+                newRelativePosition.Y += playerSpeed * PlayField.GameSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (keyboardState.IsKeyDown(Keys.Left))
-                relativePosition.X--;
+                newRelativePosition.X -= playerSpeed * PlayField.GameSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (keyboardState.IsKeyDown(Keys.Right))
-                relativePosition.X++;
+                newRelativePosition.X += playerSpeed * PlayField.GameSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (new Rectangle((int)(newRelativePosition.X + PlayField.Position.X), (int)(newRelativePosition.Y + PlayField.Position.Y), 20, 20).Intersects(PlayField.Position))
+                relativePosition = newRelativePosition;
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Rectangle((int)(RelativePosition.X + PlayField.Position.X), (int)(RelativePosition.Y + PlayField.Position.Y), 20, 20), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.1f);
+            spriteBatch.Draw(texture, new Rectangle((int)(RelativePosition.X + PlayField.Position.X), (int)(RelativePosition.Y + PlayField.Position.Y), 20, 20), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.9f);
         }
     }
 }
