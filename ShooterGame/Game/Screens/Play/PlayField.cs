@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ShooterGame.Framework;
 using ShooterGame.Game.Screens.Play.Bullets;
 using ShooterGame.Game.Screens.Play.Characters;
+using ShooterGame.Game.Screens.Play.Characters.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,10 @@ namespace ShooterGame.Game.Screens.Play
         public float GameSpeed { get; private set; } = 1;
         public Player Player { get; private set; }
 
-        private Texture2D texture;
+        public Texture2D LongBulletTexture { get; private set; }
+        public Texture2D PelletBulletTexture { get; private set; }
+
+        private Texture2D backgroundTexture;
         public PlayField(Rectangle position)
         {
             Position = position;
@@ -25,13 +29,21 @@ namespace ShooterGame.Game.Screens.Play
 
         public override void Initialize()
         {
-            texture = Texture2D.FromFile(Game.GraphicsDevice, "Assets/UI/playfieldDefaultBackground.png");
+            backgroundTexture = Texture2D.FromFile(Game.GraphicsDevice, "Assets/UI/playfieldDefaultBackground.png");
+            LongBulletTexture = Texture2D.FromFile(Game.GraphicsDevice, "Assets/Gameplay/longBullet.png");
             Player = new Player
             {
                 RelativePosition = new(518, Position.Bottom - 50),
                 PlayField = this
             };
             Game.AddObject(Player);
+            var random = new Random();
+            for (int i = 0; i < 5; i++)
+            {
+                var enemy = new Enemy(new(random.Next(Position.Right + 1), random.Next(Position.Bottom + 1)));
+                enemy.PlayField = this;
+                Game.AddObject(enemy);
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -41,7 +53,7 @@ namespace ShooterGame.Game.Screens.Play
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, Position, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 1f);
+            spriteBatch.Draw(backgroundTexture, Position, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 1f);
         }
     }
 }

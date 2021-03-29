@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ShooterGame.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ShooterGame.Game.Play.Bullets
 {
-    public abstract class Bullet : Object
+    public abstract class Bullet : GameObject
     {
         public Vector2 currentPosition; // TODO: might be committing sins here
         public Vector2 CurrentPosition { get => currentPosition; private set => currentPosition = value; }

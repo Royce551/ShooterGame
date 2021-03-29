@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ShooterGame.Framework;
 using ShooterGame.Game.Play.Bullets;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ShooterGame.Game.Play.Characters
 {
-    public class Player : Object, ICollideable
+    public class Player : GameObject, ICollideable
     {
         private Vector2 currentPosition;
         public Vector2 CurrentPosition { get => currentPosition; private set => currentPosition = value; }
@@ -30,7 +31,11 @@ namespace ShooterGame.Game.Play.Characters
         }
         public void Fire()
         {
-            GameManager.AddObject(new SimpleBullet(graphicsDevice, CurrentPosition));
+            Game.AddObject(new SimpleBullet(graphicsDevice, CurrentPosition));
+        }
+        public override void Initialize()
+        {
+            
         }
         public override void Update(GameTime gameTime)
         {

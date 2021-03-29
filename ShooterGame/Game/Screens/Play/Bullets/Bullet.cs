@@ -22,7 +22,7 @@ namespace ShooterGame.Game.Screens.Play.Bullets
 
         public abstract int SizeX { get; }
         public abstract int SizeY { get; }
-        public abstract bool IsEnemyBullet { get; }
+        public abstract bool IsEnemyBullet { get; set; }
         public abstract int Speed { get; }
 
         private readonly GraphicsDevice graphicsDevice;
@@ -35,7 +35,7 @@ namespace ShooterGame.Game.Screens.Play.Bullets
 
         public override void Update(GameTime gameTime)
         {
-            if (IsEnemyBullet)
+            if (!IsEnemyBullet)
                 relativePosition.Y -= Speed * PlayField.GameSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             else
                 relativePosition.Y += Speed * PlayField.GameSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;

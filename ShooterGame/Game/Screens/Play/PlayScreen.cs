@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ShooterGame.Framework;
 using ShooterGame.Framework.Screens;
+using ShooterGame.Game.Play;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ShooterGame.Framework;
+using ShooterGame.Game.Play;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -13,13 +13,13 @@ namespace ShooterGame.Game.Screens.Play.Bullets
         public override int SizeX => 15;
         public override int SizeY => 15;
         public override int Speed => 500;
-        public override bool IsEnemyBullet => true;
+        public override bool IsEnemyBullet { get; set; } = false;
 
-        private Texture2D texture;
+        //private Texture2D texture;
 
         public LongBullet(PlayField playField, GraphicsDevice graphicsDevice, Vector2 startPosition) : base(playField, graphicsDevice, startPosition)
         {
-            texture = Texture2D.FromFile(graphicsDevice, "Assets/Gameplay/longBullet.png");
+            //texture = Texture2D.FromFile(graphicsDevice, "Assets/Gameplay/longBullet.png");
         }
 
         public override void Update(GameTime gameTime)
@@ -29,7 +29,7 @@ namespace ShooterGame.Game.Screens.Play.Bullets
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, HitBox, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.9f);
+            spriteBatch.Draw(PlayField.LongBulletTexture, HitBox, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.9f);
         }
 
         public override void Initialize()

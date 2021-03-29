@@ -29,6 +29,7 @@ namespace ShooterGame
             _graphics.PreferredBackBufferWidth = 1600;
             _graphics.PreferredBackBufferHeight = 900;
             _graphics.SynchronizeWithVerticalRetrace = false;
+            IsFixedTimeStep = false;
             TargetElapsedTime = TimeSpan.FromMilliseconds(8.33);
             _graphics.ApplyChanges();
             base.Initialize();

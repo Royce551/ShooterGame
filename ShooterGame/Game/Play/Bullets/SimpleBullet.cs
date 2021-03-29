@@ -21,14 +21,18 @@ namespace ShooterGame.Game.Play.Bullets
             currentPosition = startPosition;
             texture = Texture2D.FromFile(graphicsDevice, "Assets/Gameplay/SimpleBullet.png");
         }
+        public override void Initialize()
+        {
+            
+        }
         public override void Update(GameTime gameTime)
         {
             if (IsEnemyBullet)
-                currentPosition.Y -= 10 * GameManager.GameSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                currentPosition.Y -= 10 * Game.GameSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             else
-                currentPosition.Y += 10 * GameManager.GameSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                currentPosition.Y += 10 * Game.GameSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (!graphicsDevice.Viewport.Bounds.Intersects(new Rectangle((int)currentPosition.X, (int)currentPosition.Y, 50, 50)))
-                GameManager.RemoveObject(this);
+                Game.RemoveObject(this);
         }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {

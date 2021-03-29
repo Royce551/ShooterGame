@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ShooterGame.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,19 +9,27 @@ using System.Threading.Tasks;
 
 namespace ShooterGame.Game.Play
 {
-    public class GameManager
+    public class GameObjectManager
     {
-        public List<Object> AllObjects { get; private set; } = new();
+        public List<GameObject> AllObjects { get; private set; } = new();
+        public GraphicsDevice GraphicsDevice { get; }
         public float GameSpeed { get; set; } = 100f;
 
-        private readonly List<Object> objectsToAdd = new();
-        private readonly List<Object> objectsToRemove = new();
-        public void AddObject(Object obj)
+        private readonly List<GameObject> objectsToAdd = new();
+        private readonly List<GameObject> objectsToRemove = new();
+
+        public GameObjectManager(GraphicsDevice graphicsDevice)
         {
-            obj.GameManager = this;
+            GraphicsDevice = graphicsDevice;
+        }
+
+        public void AddObject(GameObject obj)
+        {
+            obj.Game = this;
+            obj.Initialize();
             objectsToAdd.Add(obj);
         }
-        public void RemoveObject(Object obj)
+        public void RemoveObject(GameObject obj)
         {
             objectsToRemove.Add(obj);
         }
@@ -28,6 +37,7 @@ namespace ShooterGame.Game.Play
         {
             foreach (var obj in AllObjects)
                 obj.Update(gameTime);
+
             AllObjects.AddRange(objectsToAdd);
             objectsToAdd.Clear();
             foreach (var obj in objectsToRemove)
