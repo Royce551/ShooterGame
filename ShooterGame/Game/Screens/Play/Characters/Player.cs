@@ -28,7 +28,7 @@ namespace ShooterGame.Game.Screens.Play.Characters
 
         public void Fire()
         {
-            var bullet = new LongBullet(PlayField, graphicsDevice, new(RelativePosition.X + PlayField.Position.X, RelativePosition.Y + PlayField.Position.Y));
+            var bullet = new LongBullet(PlayField, graphicsDevice, AbsolutePosition);
             Game.AddObject(bullet);
         }
 
@@ -74,14 +74,14 @@ namespace ShooterGame.Game.Screens.Play.Characters
                     millisecondsBetweenFires -= 1 * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                 }
             }
-
             if (new Rectangle((int)(newRelativePosition.X + PlayField.Position.X), (int)(newRelativePosition.Y + PlayField.Position.Y), 20, 20).Intersects(PlayField.Position))
                 relativePosition = newRelativePosition;
+            HitBox = new Rectangle((int)(RelativePosition.X + PlayField.Position.X), (int)(RelativePosition.Y + PlayField.Position.Y), 20, 20);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Rectangle((int)(RelativePosition.X + PlayField.Position.X), (int)(RelativePosition.Y + PlayField.Position.Y), 20, 20), null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.9f);
+            spriteBatch.Draw(texture, HitBox, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.9f);
         }
     }
 }

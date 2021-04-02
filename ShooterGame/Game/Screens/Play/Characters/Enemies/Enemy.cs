@@ -14,7 +14,8 @@ namespace ShooterGame.Game.Screens.Play.Characters.Enemies
     {
         public override int Health { get; set; } = 100;
 
-        private float millisecondsBetweenFires = 150;
+        private const int millisecondsBetweenFires = 1000;
+        private float fireCooldown = millisecondsBetweenFires;
         private Texture2D texture;
         private GraphicsDevice graphicsDevice;
         public Enemy(Vector2 initialPosition)
@@ -37,14 +38,14 @@ namespace ShooterGame.Game.Screens.Play.Characters.Enemies
 
         public override void Update(GameTime gameTime)
         {
-            if (millisecondsBetweenFires <= 0)
+            if (fireCooldown <= 1)
             {
                 Fire();
-                millisecondsBetweenFires = 150;
+                fireCooldown = millisecondsBetweenFires;
             }
             else
             {
-                millisecondsBetweenFires -= 1 * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                fireCooldown -= 1 * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             }
         }
 

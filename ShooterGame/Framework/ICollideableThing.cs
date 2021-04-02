@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ShooterGame.Framework
 {
-    interface ICollideableThing
+    public interface ICollideableThing
     {
         public Rectangle HitBox { get; set; }
 
